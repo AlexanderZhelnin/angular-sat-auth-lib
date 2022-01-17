@@ -1,7 +1,5 @@
-import { filter, switchMap } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoginStorageService } from '../login-storage.service';
 import { PropertiesService } from '../properties.service';
@@ -42,8 +40,10 @@ export class SATAuthFormComponent implements OnInit, OnDestroy
           .subscribe({ next: options.logon })
     }));
 
-    this._subs.push(this.s_prop.errorLogin$.subscribe({ next: er =>
-      this.form.get('error')?.setValue(er) }));
+    this._subs.push(this.s_prop.errorLogin$.subscribe(
+      {
+        next: er => this.form.get('error')?.setValue(er)
+      }));
     setTimeout(() => this.cdRef.detectChanges(), 100);
   }
 
@@ -58,5 +58,4 @@ export class SATAuthFormComponent implements OnInit, OnDestroy
   {
     this.s_prop.login$.next({ name: this.form.value.name, password: this.form.value.password });
   }
-
 }

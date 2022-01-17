@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "http-extension": {
+    "auth-test": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/http-extension",
+            "outputPath": "dist/auth-test",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,16 +68,16 @@
         },
         "serve": {
           "options": {
-            "browserTarget": "http-extension:build",
+            "browserTarget": "auth-test:build",
             "proxyConfig": "http.proxy.js"
           },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "http-extension:build:production"
+              "browserTarget": "auth-test:build:production"
             },
             "development": {
-              "browserTarget": "http-extension:build:development"
+              "browserTarget": "auth-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "http-extension:build"
+            "browserTarget": "auth-test:build"
           }
         },
         "test": {
@@ -135,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "http-extension"
+  "defaultProject": "auth-test"
 }
