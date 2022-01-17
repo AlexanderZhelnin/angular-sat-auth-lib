@@ -5,7 +5,9 @@
     "start": "npm-run-all clear --parallel start:**",
     "start:satAuth": "ng build SAT-Auth --watch",
     "start:app": "node ./scripts/waite-for-sat-auth.js && ng serve",
-    "clear": "node ./scripts/clear.js"
+    "clear": "node ./scripts/clear.js",
+    "version": "cd ./projects/sat-auth && npm version patch && cd ../../",
+    "publish": "npm run version && ng build SAT-Auth && cd dist/sat-auth && npm pack && npm publish"
   },
   "private": true,
   "dependencies": {
