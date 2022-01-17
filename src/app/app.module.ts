@@ -35,7 +35,7 @@ import { RouterModule } from '@angular/router';
           // Идентификатор клиента
           clientId: 'DEMO',
           // Необязательная функция вызываемая по завершению авторизации
-          logon: () => { },
+          logon: undefined, //() => { },
           // Необязательная функция проверки адреса на запрос без авторизации
           // пример: (url: string) => { return url==='/assets'; }
           canExecuteWithoutAuth: undefined,
