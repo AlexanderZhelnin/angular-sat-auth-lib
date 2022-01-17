@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-title>Вход</mat-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="inputs">
+      <mat-form-field>
+        <input matInput placeholder="Имя" formControlName="name" id="name"
+          [class.invalid]="form.get('name')?.invalid && form.get('name')?.touched" />
+        <mat-icon matPrefix>person</mat-icon>
+      </mat-form-field>
+      <span class="helper-text red-text" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+        <mat-error *ngIf="form.get('name')?.errors?.['required']">Имя не должно быть пустым</mat-error>
+      </span>
+
+      <mat-form-field>
+        <input matInput placeholder="Пароль" formControlName="password" id="password"
+          [type]="hide ? 'password' : 'text'" />
+        <mat-icon matPrefix>vpn_key</mat-icon>
+
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Скрыть пароль'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <span *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="helper-text red-text">
+
+        <mat-error *ngIf="this.form.get('password')?.errors?.['required']">
+          Пароль не должен быть пустым
+        </mat-error>
+
+        <mat-error
+          *ngIf="form.get('password')?.errors?.['minlength'] && form.get('password')?.errors?.['minlength']?.['requiredLength']">
+          Пароль должен быть больше {{form.get('password')?.errors?.['minlength']['requiredLength']}} символов.
+          Сейчас {{form.get('password')?.errors?.['minlength']['actualLength']}}
+        </mat-error>
+
+      </span>
+    </div>
+
+    <mat-card-actions>
+      <mat-checkbox [(ngModel)]="s_storage.rememberMe" [ngModelOptions]="{standalone: true}">Запомнить</mat-checkbox>
+      <button mat-button type="submit" [disabled]="form.invalid">Войти</button>
+
+    </mat-card-actions>
+
+    <mat-error>
+      {{form.get('error')?.value}}
+    </mat-error>
+  </form>
+</mat-card>
