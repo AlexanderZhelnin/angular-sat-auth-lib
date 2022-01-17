@@ -34,16 +34,18 @@ export class SATAuthFormComponent implements OnInit, OnDestroy
   {
     this.s_auth.logout();
 
-    this._subs.push(this.s_prop.options$.subscribe({
-      next: options =>
-        this.s_prop.accessToken()
-          .subscribe({ next: options.logon })
-    }));
-
-    this._subs.push(this.s_prop.errorLogin$.subscribe(
-      {
-        next: er => this.form.get('error')?.setValue(er)
+    this._subs.push(this.s_prop.options$
+      .subscribe({
+        next: options =>
+          this.s_prop.accessToken()
+            .subscribe({ next: options.logon })
       }));
+
+    this._subs.push(this.s_prop.errorLogin$
+      .subscribe(
+        {
+          next: er => this.form.get('error')?.setValue(er)
+        }));
     setTimeout(() => this.cdRef.detectChanges(), 100);
   }
 
