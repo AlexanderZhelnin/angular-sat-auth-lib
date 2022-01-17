@@ -231,7 +231,7 @@ export class SATAuthService
 
       // Проверку делаем за 10 секунд до окончания времени жизни
       let timeout = l.expires_in * 1000;
-      if (timeout > 10000) timeout - 10000
+      if (timeout > 10000) timeout -= 10000
 
       // Запускаем получения токена авторизации через отведённое время жизни
       this.runRefresh(timeout);
