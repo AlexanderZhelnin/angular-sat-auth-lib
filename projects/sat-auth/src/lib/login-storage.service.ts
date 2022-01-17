@@ -21,9 +21,14 @@ export class LoginStorageService
   }
 
   /** Токен обновления */
-  public get refreshToken(): string { return this.storage.getItem('refreshToken') ?? ''; }
-  public set refreshToken(value: string) { this.storage.setItem('refreshToken', value); }
-
+  public get refreshToken(): string
+  {
+    return this.storage.getItem('refreshToken') ?? '';
+  }
+  public set refreshToken(value: string)
+  {
+    this.storage.setItem('refreshToken', value);
+  }
 
   constructor() { }
 }
