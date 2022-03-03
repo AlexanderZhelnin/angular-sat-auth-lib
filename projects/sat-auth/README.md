@@ -1,8 +1,8 @@
-# SATAuth Библиотека авторизации. 
+# SATWorker Библиотека авторизации. 
 
 [Исходный код](https://github.com/AlexanderZhelnin/angular-sat-auth-lib)
 
-[![Видео](https://i9.ytimg.com/vi/h_p6is3H1-g/hqdefault.jpg?v=61e5cdbd&sqp=CMjPmY8G&rs=AOn4CLAcGTtiYuOnHKMszb-XXu_1YnHTEQ)](https://youtu.be/h_p6is3H1-g)
+[![Видео](https://img.youtube.com/vi/h_p6is3H1-g/0.jpg)](https://youtu.be/h_p6is3H1-g)
 
 ```ts
 import { BehaviorSubject } from 'rxjs';

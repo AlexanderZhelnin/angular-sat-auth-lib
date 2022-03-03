@@ -1,4 +1,4 @@
-# SATAuth Библиотека авторизации. 
+# SATWorker Библиотека авторизации. 
 
 [Исходный код](https://github.com/AlexanderZhelnin/angular-sat-auth-lib)
 
