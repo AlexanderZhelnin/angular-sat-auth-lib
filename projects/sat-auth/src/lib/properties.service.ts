@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { ILoginData, ISATAuth, SATAUTH_OPTIONS } from './sat-auth.service';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 /** Интерфейс свойств входа со всеми установленными свойствами */
@@ -56,8 +56,8 @@ export class PropertiesService
         // Добавляем адреса без авторизации
         const tokenServiceUrl = option.tokenServiceUrl.toLowerCase();
         const urlWithoutAuth = new Map<string, boolean>([
-          [tokenServiceUrl + '/token', true],
-          [tokenServiceUrl + '/logout', true],
+          [`${tokenServiceUrl}/token`, true],
+          [`${tokenServiceUrl}/logout`, true],
           ['/assets', true]
         ]);
 
@@ -77,5 +77,11 @@ export class PropertiesService
       }),
       // Кэшируем результат, что бы выполнить один раз
       shareReplay(1));
+  }
+
+  /** Для того что бы не оставались подписки */
+  public options(): Observable<IExSATAuth>
+  {
+    return this.options$.pipe(take(1));
   }
 }

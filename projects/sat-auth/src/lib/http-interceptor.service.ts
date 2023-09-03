@@ -2,7 +2,7 @@ import { Guid } from 'guid-typescript';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap, filter } from 'rxjs/operators';
+import { switchMap, first } from 'rxjs/operators';
 import { PropertiesService } from './properties.service';
 
 
@@ -21,8 +21,9 @@ export class SATHttpInterceptorService implements HttpInterceptor
       return next.handle(req);
 
     // После получения настроек выполняем
-    return this.s_prop.options$
+    return this.s_prop.options()
       .pipe(
+        first(),
         switchMap(options =>
           // Проверяем адрес
           options.canExecuteWithoutAuth?.(req.url)

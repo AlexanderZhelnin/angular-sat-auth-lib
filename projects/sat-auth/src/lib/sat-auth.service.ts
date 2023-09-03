@@ -1,4 +1,4 @@
-import { delay } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { throwError, Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, InjectionToken } from '@angular/core';
@@ -107,12 +107,14 @@ export class SATAuthService
   public logout(): void
   {
     const token = this._accessToken;
+    if (!token) return;
     this.clear();
-    this.s_prop.options$
+    this.s_prop.options()
       .pipe(
+        first(),
         switchMap(options =>
           token
-            ? this.http.get(options.tokenServiceUrl + '/logout', { headers: { Authorization: `Bearer ${token}` } })
+            ? this.http.get(`${options.tokenServiceUrl}/logout`, { headers: { Authorization: `Bearer ${token}` } })
             : new BehaviorSubject(true)
         ),
         catchError(_ => new BehaviorSubject(true)),
@@ -123,20 +125,22 @@ export class SATAuthService
   /** Авторизация по логину и паролю */
   private login(username: string, password: string): Observable<any>
   {
-    return this.s_prop.options$
+    return this.s_prop.options()
       .pipe(
+        first(),
         switchMap(options =>
-          this.http.post(
-            options.tokenServiceUrl + '/token',
-            new HttpParams()
-              .set('client_id', options.clientId)
-              .set('grant_type', 'password')
-              .set('username', username)
-              .set('password', password).toString(),
-            {
-              headers: new HttpHeaders()
-                .set('Content-Type', 'application/x-www-form-urlencoded')
-            }).pipe(tap(r => this.load(options, r)))),
+        {
+          const body = new URLSearchParams();
+          body.set('client_id', options.clientId);
+          body.set('grant_type', 'password');
+          body.set('username', username);
+          body.set('password', password);
+          return this.http.post(
+            `${options.tokenServiceUrl}/token`,
+            body.toString(),
+            { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') })
+            .pipe(tap(r => this.load(options, r)));
+        }),
         catchError((er: HttpErrorResponse) =>
         {
           switch (er.status)
@@ -156,8 +160,9 @@ export class SATAuthService
   private tokenFromRefresh(refreshToken: string): Observable<string>
   {
     this.s_prop.refreshCompleted$.next(false);
-    return this.s_prop.options$
+    return this.s_prop.options()
       .pipe(
+        first(),
         switchMap(options =>
           this.http.post(
             options.tokenServiceUrl + '/token',
@@ -193,11 +198,13 @@ export class SATAuthService
   /** Получение токена из авторизации по логину */
   private tokenFromLogin(): Observable<string>
   {
-    return this.s_prop.options$
+    return this.s_prop.options()
       .pipe(
+        first(),
         switchMap(options =>
           (options.loginData())
             .pipe(
+              first(),
               switchMap(l =>
                 this.login(l.name, l.password)
                   .pipe(map(r => r.access_token))
@@ -253,7 +260,7 @@ export class SATAuthService
     {
       this.clear();
       this._accessToken$ = this.tokenFromRefresh(this.s_storage.refreshToken);
-      this.s_prop.accessToken().subscribe({ next: _ => { } });
+      this.s_prop.accessToken().subscribe();
     }, timeout);
   }
 

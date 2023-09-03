@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { LoginStorageService } from '../login-storage.service';
 import { PropertiesService } from '../properties.service';
 import { SATAuthService } from '../sat-auth.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'auth-form',

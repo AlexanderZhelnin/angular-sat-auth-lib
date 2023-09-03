@@ -4,7 +4,7 @@
   "scripts": {
     "start": "npm-run-all clear --parallel start:**",
     "start:satAuth": "ng build SAT-Auth --watch",
-    "start:app": "node ./scripts/waite-for-sat-auth.js && ng serve",
+    "start:app": "node ./scripts/waite-for-sat-auth.js && ng s --host=127.0.0.1",
     "clear": "node ./scripts/clear.js",
     "version": "cd ./projects/sat-auth && npm version patch && cd ../../",
     "publish": "npm run version && ng build SAT-Auth && cd dist/sat-auth && npm pack && npm publish"

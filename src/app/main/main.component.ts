@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SATAuthService } from 'sat-auth';
 import { ApiClientService, Author } from '../services/api-client.service';
 
 @Component({
@@ -10,7 +11,9 @@ export class MainComponent implements OnInit
 {
   public authors: Author[] = [];
 
-  constructor(public apiClientService: ApiClientService) { }
+  constructor(
+    public authService: SATAuthService,
+    public apiClientService: ApiClientService) { }
 
   ngOnInit(): void
   {
@@ -27,16 +30,21 @@ export class MainComponent implements OnInit
 
   }
 
-  onClick()
+  onClick(): void
   {
-      this.apiClientService.GetAuthorById(1).subscribe({
-        next: author =>
-        {
-          console.log(author);
+    this.apiClientService.GetAuthorById(1).subscribe({
+      next: author =>
+      {
+        console.log(author);
 
 
-        }
-      })
+      }
+    })
+  }
+
+  onLogout(): void
+  {
+    this.authService.logout();
   }
 
 }
