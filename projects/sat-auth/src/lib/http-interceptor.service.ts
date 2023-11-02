@@ -32,6 +32,7 @@ export class SATHttpInterceptorService implements HttpInterceptor
             // Получаем токен авторизации и выполняем с ним
             : this.s_prop.accessToken()
               .pipe(
+                first(),
                 switchMap(token =>
                 {
                   // Передаём уникальный идентификатор запроса
